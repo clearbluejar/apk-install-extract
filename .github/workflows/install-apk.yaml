@@ -39,7 +39,7 @@ jobs:
         run: |          
           adb connect localhost:5555
           adb devices -l 
-          adb -s localhost:5555 adb install -s example.apk 
+          adb -s localhost:5555 install -s example.apk 
       
       - name: fix data permissions
         if: always()
