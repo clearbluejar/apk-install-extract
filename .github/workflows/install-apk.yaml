@@ -47,6 +47,7 @@ jobs:
           adb devices -l 
           adb -s localhost:5555 install -s example.apk
       - name: fix data permissions
+        if: always()
         run: | 
           # stop docker containers
           docker stop $(docker ps -a -q)
