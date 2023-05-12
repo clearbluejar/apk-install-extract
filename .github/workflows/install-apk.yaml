@@ -37,9 +37,9 @@ jobs:
 
       - name: adb connect
         run: |          
-          adb connect 
-          adb devices
-          adb install -s example.apk
+          adb connect localhost:5555
+          adb devices -l 
+          adb -s emulator-5554 install -s example.apk
       
       - name: Upload data
         uses: actions/upload-artifact@v3
