@@ -40,7 +40,7 @@ jobs:
           adb connect localhost:5555
           adb devices -l 
           #adb -s localhost:5555 install example.apk
-          adb -e localhost:5555 install -s example.apk
+          adb -e install -s example.apk
           # start whatsapp https://stackoverflow.com/questions/59457014/start-whatsapp-chat-using-adb
           adb -s localhost:5555 shell am start -n com.whatsapp/com.whatsapp.Main
       
@@ -57,4 +57,4 @@ jobs:
         if: always()
         with:
             name: apk_data
-            path: data      
+            path: data/data      
