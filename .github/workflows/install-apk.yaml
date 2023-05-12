@@ -32,7 +32,7 @@ jobs:
           sudo modprobe ashmem_linux
       - name: install apk
         run: |
-          docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p 5555:5555 redroid/redroid:11.0.0-latest
+          docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p 5555:5555 redroid/redroid:12.0.0-latest
 
       - name: install apk
         run: |
