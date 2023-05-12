@@ -34,13 +34,13 @@ jobs:
         run: |
           mkdir data
           docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p 5555:5555 redroid/redroid:12.0.0-latest
+          docker exec -it `docker ps -a --no-trunc -q | head -n 1` ps aux
 
       - name: adb connect install
-        run: |          
-          ps aux
+        run: |                    
           adb connect localhost:5555
           adb devices -l 
-          adb -s emulator-5554 emu kill
+          
           adb devices -l 
           #adb -s localhost:5555 install example.apk          
           adb -e install -s example.apk
