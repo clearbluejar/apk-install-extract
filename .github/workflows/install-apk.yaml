@@ -37,7 +37,7 @@ jobs:
 
       - name: adb connect
         run: |          
-          adb connect emulator-5554
+          adb connect 
           adb devices
           adb install -s example.apk
       
