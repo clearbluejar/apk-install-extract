@@ -37,7 +37,7 @@ jobs:
 
       - name: adb connect
         run: |          
-          adb connect localhost:5555
+          adb connect emulator-5554
           adb devices
           adb install -s example.apk
       
