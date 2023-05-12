@@ -37,9 +37,10 @@ jobs:
 
       - name: adb connect install
         run: |          
+          ps aux
+          adb connect localhost:5555
           adb devices -l 
-          #adb connect localhost:5555
-          adb connect emulator-5554:5555
+          adb -s emulator-5554 emu kill
           adb devices -l 
           #adb -s localhost:5555 install example.apk          
           adb -e install -s example.apk
