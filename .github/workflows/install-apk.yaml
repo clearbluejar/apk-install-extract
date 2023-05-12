@@ -33,13 +33,14 @@ jobs:
       - name: run emulator
         run: |
           mkdir data
-          docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p 5555:5555 redroid/redroid:12.0.0-latest
+          docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p 5555:5555 redroid/redroid:13.0.0-latest
 
       - name: adb connect install
         run: |          
           adb connect localhost:5555
           adb devices -l 
           adb shell -s localhost:5555 install example.apk
+          # start whatsapp https://stackoverflow.com/questions/59457014/start-whatsapp-chat-using-adb
           adb shell am start -n com.whatsapp/com.whatsapp.Main
       
       - name: fix data permissions
