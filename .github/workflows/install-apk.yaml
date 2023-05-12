@@ -41,6 +41,14 @@ jobs:
           adb devices -l 
           adb -s emulator-5554 install -s example.apk
       
+        - name: adb connect
+        run: |          
+          adb connect localhost:5555
+          adb devices -l 
+          adb -s localhost:5555 install -s example.apk
+      - name: fix permissions
+        run: | 
+          sudo chown -R runner:runner data
       - name: Upload data
         uses: actions/upload-artifact@v3
         if: always()
