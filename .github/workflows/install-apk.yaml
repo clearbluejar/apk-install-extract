@@ -39,7 +39,8 @@ jobs:
         run: |          
           adb connect localhost:5555
           adb devices -l 
-          adb -s localhost:5555 install -s example.apk 
+          adb shell -s localhost:5555 install example.apk
+          adb shell am start -n com.whatsapp/com.whatsapp.Main
       
       - name: fix data permissions
         if: always()
