@@ -10,30 +10,24 @@ on:
 #   DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
 
 jobs:
-  build-and-push:
+  download-install-and-extract:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      # - name: Login to Docker Hub
-      #   uses: docker/login-action@v1
-      #   with:
-      #     username: ${{ env.DOCKERHUB_USERNAME }}
-      #     password: ${{ env.DOCKERHUB_TOKEN }}
-      # - name: Build Docker image
-        # run: |
-        #   docker build -t myapp:latest .
-      - name: install dependencies
-        run: |
-          ## install required kernel modules
+      - name : install adb
+        run: | 
           sudo apt install adb
+      - name: install redroid dependencies
+        run: |
+          ## install required kernel modules          
           sudo apt install linux-modules-extra-`uname -r`
           sudo modprobe binder_linux devices="binder,hwbinder,vndbinder"
           sudo modprobe ashmem_linux          
       - name: run emulator
         run: |
           mkdir data
-          docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p 5555:5555 redroid/redroid:12.0.0-latest          
+          docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p 5555:5555 redroid/redroid:12.0.0-latest
 
       - name: adb connect install
         run: |                    
@@ -44,7 +38,7 @@ jobs:
           adb -s localhost:5555 shell am start -n com.whatsapp/com.whatsapp.Main
           ## adb shell am start -n com.whatsapp/com.whatsapp.Main
           # adb -s localhost:5555 backup -apk com.whatsapp
-          find .
+          # sudo find .
       
       - name: fix data permissions
         if: always()
