@@ -26,10 +26,10 @@ jobs:
       - name: install dependencies
         run: |
           ## install required kernel modules
-          apt install adb
-          apt install linux-modules-extra-`uname -r`
-          modprobe binder_linux devices="binder,hwbinder,vndbinder"
-          modprobe ashmem_linux
+          sudo apt install adb
+          sudo apt install linux-modules-extra-`uname -r`
+          sudo modprobe binder_linux devices="binder,hwbinder,vndbinder"
+          sudo modprobe ashmem_linux
       - name: install apk
         run: |
           docker run -itd --rm --privileged --pull always -v ~/data:/data -p 5555:5555 redroid/redroid:11.0.0-latest
