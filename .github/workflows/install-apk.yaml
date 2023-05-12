@@ -29,14 +29,16 @@ jobs:
           sudo apt install adb
           sudo apt install linux-modules-extra-`uname -r`
           sudo modprobe binder_linux devices="binder,hwbinder,vndbinder"
-          sudo modprobe ashmem_linux
+          sudo modprobe ashmem_linux          
       - name: install apk
         run: |
+          mkdir data
           docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p 5555:5555 redroid/redroid:12.0.0-latest
 
-      - name: install apk
-        run: |
+      - name: adb connect
+        run: |          
           adb connect localhost:5555
+          adb devices
           adb install -s example.apk
       
       - name: Upload data
