@@ -44,7 +44,7 @@ jobs:
           adb -e install -s example.apk
           # start whatsapp https://stackoverflow.com/questions/59457014/start-whatsapp-chat-using-adb
           adb -s localhost:5555 shell am start -n com.whatsapp/com.whatsapp.Main
-          adb -s localhost:5555 backup -noapk com.whatsapp
+          # adb -s localhost:5555 backup -apk com.whatsapp
           find .
       
       - name: fix data permissions
