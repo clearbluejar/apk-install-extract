@@ -46,9 +46,12 @@ jobs:
           adb connect localhost:5555
           adb devices -l 
           adb -s localhost:5555 install -s example.apk
-      - name: fix permissions
+      - name: fix data permissions
         run: | 
+          # stop docker containers
+          docker stop $(docker ps -a -q)
           sudo chown -R runner:runner data
+      
       - name: Upload data
         uses: actions/upload-artifact@v3
         if: always()
