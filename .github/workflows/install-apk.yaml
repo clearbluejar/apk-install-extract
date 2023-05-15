@@ -5,10 +5,6 @@ on:
     branches:
       - main
 
-# env:
-#   DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-#   DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
-
 jobs:
   download-install-and-extract:
     runs-on: ubuntu-latest
@@ -35,7 +31,7 @@ jobs:
           adb devices -l 
           adb -s localhost:5555 install example.apk          
           # start whatsapp https://stackoverflow.com/questions/59457014/start-whatsapp-chat-using-adb
-          adb -s localhost:5555 shell am start -n com.whatsapp/com.whatsapp.Main
+          #adb -s localhost:5555 shell am start -n com.whatsapp/com.whatsapp.Main
           ## adb shell am start -n com.whatsapp/com.whatsapp.Main
           # adb -s localhost:5555 backup -apk com.whatsapp
           # sudo find .
