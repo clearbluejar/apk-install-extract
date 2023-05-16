@@ -117,6 +117,7 @@ jobs:
           sudo chown -R runner:runner data
 
       - name: compress archive data
+        run: | 
           tar cvzf ${{ env.apkpkgver }}.data.tar.gz data/data/${{ env.apkpkg }}
       
       - name: Upload data
@@ -126,7 +127,7 @@ jobs:
             name: all_apk_package_data
             path: ${{ env.apkpkgver }}*  
             
-        - name: Upload all data
+      - name: Upload all data
         uses: actions/upload-artifact@v3
         if: always()
         with:
