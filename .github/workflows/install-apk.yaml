@@ -66,9 +66,11 @@ jobs:
 
       - name: get package name ver
         run : |
-          echo "apkpkgver=$(./get-ver.sh ${{matrix.apkpath}})" >> "$GITHUB_ENV"
+          echo "apkpkgver=$(./get-pkgver.sh ${{matrix.apkpath}})" >> "$GITHUB_ENV"
+          echo "apkpkg=$(./get-ver.sh ${{matrix.apkpath}})" >> "$GITHUB_ENV"
           echo "$apkpkgver"         
-          
+          echo "$apkpkg"     
+
       - name: aapt dump badging
         run: | 
           aapt dump badging ${{matrix.apkpath}}) >  ${{ env.apkpkgver }}.badging.txt         
@@ -79,7 +81,7 @@ jobs:
           # stop docker containers
           docker stop $(docker ps -a -q)
           sudo chown -R runner:runner data
-          tar cvzf ${{ env.apkpkgver }}.data.tar.gz data
+          tar cvzf ${{ env.apkpkgver }}.data.tar.gz data/data/${{ env.apkpkg }}
       
       - name: Upload data
         uses: actions/upload-artifact@v3
