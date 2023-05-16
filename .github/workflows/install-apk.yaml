@@ -115,11 +115,20 @@ jobs:
           # stop docker containers
           docker stop $(docker ps -a -q)
           sudo chown -R runner:runner data
+
+      - name: compress archive data
           tar cvzf ${{ env.apkpkgver }}.data.tar.gz data/data/${{ env.apkpkg }}
       
       - name: Upload data
         uses: actions/upload-artifact@v3
         if: always()
         with:
-            name: ${{ env.apkpkgver }}
-            path: ${{ env.apkpkgver }}*    
+            name: all_apk_package_data
+            path: ${{ env.apkpkgver }}*  
+            
+        - name: Upload all data
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+            name: all_data
+            path: data
