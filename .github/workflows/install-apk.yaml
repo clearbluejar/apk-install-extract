@@ -48,13 +48,13 @@ jobs:
       - name: run emulator
         run: |
           mkdir data
-          docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p {{env.avd_port}}:5555 redroid/redroid:12.0.0-latest
+          docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p ${{env.avd_port}}:5555 redroid/redroid:12.0.0-latest
 
       - name: adb connect install
         run: |                    
-          adb connect {{env.avd_name}}
+          adb connect ${{env.avd_name}}
           adb devices -l 
-          adb -s {{env.avd_name}} install {{matrix.apkpath}}
+          adb -s ${{env.avd_name}} install ${{matrix.apkpath}}
 
       - name: adb start main activity
         run: |                    
@@ -62,11 +62,11 @@ jobs:
           # start whatsapp https://stackoverflow.com/questions/59457014/start-whatsapp-chat-using-adb
           # adb -s localhost:5555 shell am start -n com.whatsapp/com.whatsapp.Main
           ## adb shell am start -n com.whatsapp/com.whatsapp.Main
-          adb-run.sh {{matrix.apkpath}}
+          adb-run.sh ${{matrix.apkpath}}
 
       - name: get package name ver
         run : |
-          echo "apkpkgver=$(./get-ver.sh {{matrix.apkpath})" >> "$GITHUB_ENV"
+          echo "apkpkgver=$(./get-ver.sh ${{matrix.apkpath}})" >> "$GITHUB_ENV"
           echo "$apkpkgver"
           
       
