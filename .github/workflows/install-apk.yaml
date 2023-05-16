@@ -132,4 +132,4 @@ jobs:
         if: always()
         with:
             name: all_data
-            path: data
+            path: data/data
