@@ -16,7 +16,7 @@ jobs:
       apkpaths: ${{ steps.getpaths.outputs.apkpaths }}
     steps:      
       - name: Checkout code
-      uses: actions/checkout@v3
+        uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
