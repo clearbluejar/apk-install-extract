@@ -42,7 +42,7 @@ jobs:
       - name: Setup paths
         id: getpaths
         run: |                              
-          echo "apkpaths=$(python -c 'import pathlib; print([str(file) for file in pathlib.Path.glob(pathlib.Path("${{env.inputs.all_apk_dir}}"),"**/*.apk")])')" >> "$GITHUB_OUTPUT"          
+          echo "apkpaths=$(python -c 'import pathlib; print([str(file) for file in pathlib.Path.glob(pathlib.Path("${{env.inputs.all_apk_dir}}"),"*.apk")])')" >> "$GITHUB_OUTPUT"          
         shell: bash
 
   download-install-and-extract:
