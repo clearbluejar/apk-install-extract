@@ -121,5 +121,5 @@ jobs:
         uses: actions/upload-artifact@v3
         if: always()
         with:
-            name: apk_data
+            name: ${{ env.apkpkgver }}
             path: ${{ env.apkpkgver }}*    
