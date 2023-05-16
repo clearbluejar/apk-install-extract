@@ -74,6 +74,7 @@ jobs:
       - name: aapt dump badging
         run: | 
           aapt dump badging ${{matrix.apkpath}} >  ${{ env.apkpkgver }}.badging.txt         
+          cat ${{ env.apkpkgver }}.badging.txt
       
       - name: fix data permissions
         if: always()
