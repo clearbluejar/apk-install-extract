@@ -67,7 +67,7 @@ jobs:
       - name: get package name ver
         run : |
           echo "apkpkgver=$(./get-pkgver.sh ${{matrix.apkpath}})" >> "$GITHUB_ENV"
-          echo "apkpkg=$(./get-ver.sh ${{matrix.apkpath}})" >> "$GITHUB_ENV"
+          echo "apkpkg=$(./get-pkg.sh ${{matrix.apkpath}})" >> "$GITHUB_ENV"
           echo "$apkpkgver"         
           echo "$apkpkg"     
 
