@@ -11,11 +11,11 @@ on:
         description: 'url to download apks zipped'
         required: true
         type: string
-        default: ${{env.default_apk_url}}
+        default: https://url/apks.zip
 env:
   avd_port: 9999
   avd_name: localhost:9999
-  default_apk_url: https://github.com/clearbluejar/apk-install/releases/download/v0.0.1/example.apk.zip
+  default_apk_zip_url: https://github.com/clearbluejar/apk-install/releases/download/v0.0.1/example.apk.zip
   all_apk_dir: all_apks
 
 jobs:
@@ -33,7 +33,10 @@ jobs:
         run: |
           mkdir ${{env.inputs.all_apk_dir}}
           # apk_zip_name=$(echo "${{env.inputs.apk_zip_url}}"  | rev | cut -d '/' -f 1 | rev)
-          wget ${{env.inputs.apk_zip_url}} -O ${{env.inputs.all_apk_dir}}.zip
+          # worfklow_dispatch
+          [ -n "${{inputs.default_apk_zip_url}}" ] && wget ${{inputs.apk_zip_url}} -O ${{env.inputs.all_apk_dir}}.zip
+          # default run
+          [ -z "${{inputs.default_apk_zip_url}}" ] && wget ${{env.default_apk_zip_url}} -O ${{env.inputs.all_apk_dir}}.zip
           unzip ${{env.inputs.all_apk_dir}}.zip -d ${{env.inputs.all_apk_dir}}
 
       - name: Setup paths
