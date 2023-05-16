@@ -31,13 +31,13 @@ jobs:
           python-version: '3.10'
       - name: download apks
         run: |
-          mkdir ${{env.inputs.all_apk_dir}}
+          mkdir ${{env.all_apk_dir}}
           # apk_zip_name=$(echo "${{env.inputs.apk_zip_url}}"  | rev | cut -d '/' -f 1 | rev)
           # worfklow_dispatch
-          [ -n "${{inputs.default_apk_zip_url}}" ] && wget ${{inputs.apk_zip_url}} -O ${{env.inputs.all_apk_dir}}.zip
+          [ -n "${{inputs.apk_zip_url}}" ] && wget ${{inputs.apk_zip_url}} -O ${{env.all_apk_dir}}.zip
           # default run
-          [ -z "${{inputs.default_apk_zip_url}}" ] && wget ${{env.default_apk_zip_url}} -O ${{env.inputs.all_apk_dir}}.zip
-          unzip ${{env.inputs.all_apk_dir}}.zip -d ${{env.inputs.all_apk_dir}}
+          [ -z "${{inputs.apk_zip_url}}" ] && wget ${{env.default_apk_zip_url}} -O ${{env.all_apk_dir}}.zip
+          unzip ${{env.all_apk_dir}}.zip -d ${{env.all_apk_dir}}
 
       - name: Setup paths
         id: getpaths
