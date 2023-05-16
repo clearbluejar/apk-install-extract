@@ -74,7 +74,7 @@ jobs:
           # stop docker containers
           docker stop $(docker ps -a -q)
           sudo chown -R runner:runner data
-          tar cvzf "$apkpkgver".data.tar.gz data
+          tar cvzf ${{ env.apkpkgver }}.data.tar.gz data
       
       - name: Upload data
         uses: actions/upload-artifact@v3
