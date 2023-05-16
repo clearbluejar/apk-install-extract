@@ -55,20 +55,23 @@ jobs:
           adb connect ${{env.avd_name}}
           adb devices -l 
           adb -s ${{env.avd_name}} install ${{matrix.apkpath}}
-
+          
       - name: adb start main activity
         run: |                    
 
           # start whatsapp https://stackoverflow.com/questions/59457014/start-whatsapp-chat-using-adb
           # adb -s localhost:5555 shell am start -n com.whatsapp/com.whatsapp.Main
           ## adb shell am start -n com.whatsapp/com.whatsapp.Main
-          adb-run.sh ${{matrix.apkpath}}
+          ./adb-run.sh ${{matrix.apkpath}}
 
       - name: get package name ver
         run : |
           echo "apkpkgver=$(./get-ver.sh ${{matrix.apkpath}})" >> "$GITHUB_ENV"
-          echo "$apkpkgver"
+          echo "$apkpkgver"         
           
+      - name: aapt dump badging
+        run: | 
+          aapt dump badging ${{matrix.apkpath}}) >  ${{ env.apkpkgver }}.badging.txt         
       
       - name: fix data permissions
         if: always()
@@ -83,4 +86,4 @@ jobs:
         if: always()
         with:
             name: apk_data
-            path: data/data      
+            path: ${{ env.apkpkgver }}*    
