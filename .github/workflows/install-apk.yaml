@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v3
       - name : install adb
         run: | 
-          sudo apt install adb
+          sudo apt install adb aapt
       - name: install redroid dependencies
         run: |
           ## install required kernel modules          
