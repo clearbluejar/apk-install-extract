@@ -45,6 +45,12 @@ jobs:
         run: |                              
           echo "apkpaths=$(python -c 'import pathlib; print([str(file) for file in pathlib.Path.glob(pathlib.Path("${{env.all_apk_dir}}"),"**/*.apk")])')" >> "$GITHUB_OUTPUT"          
         shell: bash
+      - name: Upload apks
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{env.all_apk_dir}}
+          path: ${{env.all_apk_dir}}
+          retention-days: 5
 
   download-install-and-extract:
     needs: generate-matrix
@@ -69,6 +75,13 @@ jobs:
         run: |
           mkdir data
           docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p ${{env.avd_port}}:5555 redroid/redroid:12.0.0-latest
+
+      - name: Download runner artifacts 
+        uses: actions/download-artifact@master
+        with:
+          name: ${{env.all_apk_dir}}
+          path: ${{env.all_apk_dir}}
+        
 
       - name: adb connect install
         run: |                    
