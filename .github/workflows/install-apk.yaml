@@ -38,6 +38,7 @@ jobs:
           # default run
           [ -z "${{inputs.apk_zip_url}}" ] && wget ${{env.default_apk_zip_url}} -O ${{env.all_apk_dir}}.zip
           unzip ${{env.all_apk_dir}}.zip -d ${{env.all_apk_dir}}
+          find .
 
       - name: Setup paths
         id: getpaths
