@@ -139,4 +139,4 @@ jobs:
         if: always()
         with:
             name: all_data
-            path: data_${{ env.apkpkgver }}/data/
+            path: data-${{ env.apkpkgver }}-${{matrix.arch}}/data/
