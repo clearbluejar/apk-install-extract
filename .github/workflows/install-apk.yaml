@@ -104,11 +104,12 @@ jobs:
           echo "apkpkg=$(./get-pkg.sh '${{matrix.apkpath}}')" >> "$GITHUB_ENV"
           echo "$apkpkgver"         
           echo "$apkpkg"     
+          mkdir ${{ env.apkpkgver }}
 
       - name: aapt dump badging
         run: | 
-          aapt dump badging "${{matrix.apkpath}}" >  ${{ env.apkpkgver }}.badging.txt         
-          cat ${{ env.apkpkgver }}.badging.txt
+          aapt dump badging "${{matrix.apkpath}}" >  ${{ env.apkpkgver }}/${{ env.apkpkgver }}.badging.txt         
+          cat ${{ env.apkpkgver }}/${{ env.apkpkgver }}.badging.txt
       
       - name: fix data permissions
         if: always()
@@ -116,23 +117,18 @@ jobs:
           # stop docker containers
           docker stop $(docker ps -a -q)
           sudo chown -R runner:runner data
-         
-
-      - name: get arch
-        run: |
-          file_str=$(file /)
 
       - name: compress archive data
         run: |
           mv data data-${{ env.apkpkgver }}-${{matrix.arch}} 
-          tar cvzf ${{ env.apkpkgver }}.${{matrix.arch}}.data.tar.gz data-${{ env.apkpkgver }}-${{matrix.arch}}/data/${{ env.apkpkg }}
+          tar cvzf ${{ env.apkpkgver }}/${{ env.apkpkgver }}.${{matrix.arch}}.data.tar.gz data-${{ env.apkpkgver }}-${{matrix.arch}}/data/${{ env.apkpkg }}
       
       - name: Upload data
         uses: actions/upload-artifact@v3
         if: always()
         with:
             name: all_package_data
-            path: ${{ env.apkpkgver }}*  
+            path: ${{ env.apkpkgver }}
             
       - name: Upload all data
         uses: actions/upload-artifact@v3
