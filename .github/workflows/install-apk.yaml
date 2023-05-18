@@ -129,6 +129,7 @@ jobs:
         with:
             name: all_package_data
             path: ${{ env.apkpkgver }}
+            retention-days: 15
             
       - name: Upload all data
         uses: actions/upload-artifact@v3
@@ -136,3 +137,4 @@ jobs:
         with:
             name: all_data
             path: data-${{ env.apkpkgver }}-${{matrix.arch}}/data/
+            retention-days: 5
