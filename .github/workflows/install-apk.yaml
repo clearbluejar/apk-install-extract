@@ -104,7 +104,6 @@ jobs:
           echo "apkpkg=$(./get-pkg.sh '${{matrix.apkpath}}')" >> "$GITHUB_ENV"
           echo "$apkpkgver"         
           echo "$apkpkg"     
-          mkdir "$apkpkgver"
 
       - name: create output dir
         run: | 
