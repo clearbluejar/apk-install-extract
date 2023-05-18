@@ -124,14 +124,14 @@ jobs:
 
       - name: compress archive data
         run: |
-          mv data data_${{ env.apkpkgver }}_${{matrix.arch}} 
-          tar cvzf ${{ env.apkpkgver }}.data.tar.gz data_${{ env.apkpkgver }}/data/${{ env.apkpkg }}
+          mv data data-${{ env.apkpkgver }}-${{matrix.arch}} 
+          tar cvzf ${{ env.apkpkgver }}.${{matrix.arch}}.data.tar.gz data-${{ env.apkpkgver }}-${{matrix.arch}}/data/${{ env.apkpkg }}
       
       - name: Upload data
         uses: actions/upload-artifact@v3
         if: always()
         with:
-            name: all_apk_package_data
+            name: all_package_data
             path: ${{ env.apkpkgver }}*  
             
       - name: Upload all data
@@ -139,4 +139,4 @@ jobs:
         if: always()
         with:
             name: all_data
-            path: data/data
+            path: data_${{ env.apkpkgver }}/data/
