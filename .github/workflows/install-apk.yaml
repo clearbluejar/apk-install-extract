@@ -88,7 +88,7 @@ jobs:
         run: |                    
           adb connect ${{env.avd_name}}
           adb devices -l 
-          adb -s ${{env.avd_name}} --abi ${{matrix.arch}} install "${{matrix.apkpath}}"
+          adb -s ${{env.avd_name}} install --abi ${{matrix.arch}} "${{matrix.apkpath}}"
           
       - name: adb start main activity
         run: |                    
