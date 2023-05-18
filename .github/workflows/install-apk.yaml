@@ -104,7 +104,7 @@ jobs:
           echo "apkpkg=$(./get-pkg.sh '${{matrix.apkpath}}')" >> "$GITHUB_ENV"
           echo "$apkpkgver"         
           echo "$apkpkg"     
-          mkdir ${{ env.apkpkgver }}
+          mkdir "$apkpkgver"
 
       - name: aapt dump badging
         run: | 
