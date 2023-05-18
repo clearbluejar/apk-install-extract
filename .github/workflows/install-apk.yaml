@@ -106,6 +106,10 @@ jobs:
           echo "$apkpkg"     
           mkdir "$apkpkgver"
 
+      - name: create output dir
+        run: | 
+          mkdir ${{ env.apkpkgver }}
+
       - name: aapt dump badging
         run: | 
           aapt dump badging "${{matrix.apkpath}}" >  ${{ env.apkpkgver }}/${{ env.apkpkgver }}.badging.txt         
