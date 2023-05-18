@@ -59,6 +59,7 @@ jobs:
       fail-fast: false
       matrix:        
         apkpath: ${{fromJson(needs.generate-matrix.outputs.apkpaths)}}
+        arch: ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64']
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -87,7 +88,7 @@ jobs:
         run: |                    
           adb connect ${{env.avd_name}}
           adb devices -l 
-          adb -s ${{env.avd_name}} install "${{matrix.apkpath}}"
+          adb -s ${{env.avd_name}} --abi ${{matrix.arch}} install "${{matrix.apkpath}}"
           
       - name: adb start main activity
         run: |                    
@@ -115,10 +116,16 @@ jobs:
           # stop docker containers
           docker stop $(docker ps -a -q)
           sudo chown -R runner:runner data
+         
+
+      - name: get arch
+        run: |
+          file_str=$(file /)
 
       - name: compress archive data
-        run: | 
-          tar cvzf ${{ env.apkpkgver }}.data.tar.gz data/data/${{ env.apkpkg }}
+        run: |
+          mv data data_${{ env.apkpkgver }}_${{matrix.arch}} 
+          tar cvzf ${{ env.apkpkgver }}.data.tar.gz data_${{ env.apkpkgver }}/data/${{ env.apkpkg }}
       
       - name: Upload data
         uses: actions/upload-artifact@v3
