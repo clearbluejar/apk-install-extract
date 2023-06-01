@@ -1,4 +1,5 @@
 name: Install APK
+run-name: Install APK - ${{inputs.run_name}}
 
 on:
   push:
@@ -12,6 +13,9 @@ on:
         required: true
         type: string
         default: https://url/apks.zip
+      run_name:
+        required: false
+        type: string
 env:
   avd_port: 9999
   avd_name: localhost:9999
