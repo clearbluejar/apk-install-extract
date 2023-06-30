@@ -62,8 +62,7 @@ jobs:
       fail-fast: false
       matrix:        
         apkpath: ${{fromJson(needs.generate-matrix.outputs.apkpaths)}}
-        arch: ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64']
-        #arch: ['arm64-v8a', 'x86_64'] # current docker container only x64
+        arch: ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64']        
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -79,8 +78,7 @@ jobs:
       - name: Run emulator
         run: |
           mkdir data
-          docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p ${{env.avd_port}}:5555 redroid/redroid:12.0.0-latest
-          #docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p ${{env.avd_port}}:5555 redroid/redroid:12.0.0_64only-latest
+          docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p ${{env.avd_port}}:5555 redroid/redroid:12.0.0-latest          
 
       - name: Download runner artifacts 
         uses: actions/download-artifact@master
