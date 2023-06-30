@@ -1,5 +1,5 @@
-name: Install APK
-run-name: Install APK - ${{inputs.run_name}}
+name: Install Extract APK
+run-name: Install Extract - ${{inputs.run_name}}
 
 on:
   push:
@@ -33,10 +33,9 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: download apks
+      - name: Download and unzip APKs
         run: |
-          mkdir ${{env.all_apk_dir}}
-          # apk_zip_name=$(echo "${{env.inputs.apk_zip_url}}"  | rev | cut -d '/' -f 1 | rev)
+          mkdir ${{env.all_apk_dir}}          
           # worfklow_dispatch
           [ -n "${{inputs.apk_zip_url}}" ] && wget ${{inputs.apk_zip_url}} -O ${{env.all_apk_dir}}.zip
           # default run
@@ -49,7 +48,7 @@ jobs:
         run: |                              
           echo "apkpaths=$(python -c 'import pathlib; print([str(file) for file in pathlib.Path.glob(pathlib.Path("${{env.all_apk_dir}}"),"**/*.apk")])')" >> "$GITHUB_OUTPUT"          
         shell: bash
-      - name: Upload apks
+      - name: Upload APKs
         uses: actions/upload-artifact@v3
         with:
           name: ${{env.all_apk_dir}}
@@ -64,23 +63,24 @@ jobs:
       matrix:        
         apkpath: ${{fromJson(needs.generate-matrix.outputs.apkpaths)}}
         arch: ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64']
+        #arch: ['arm64-v8a', 'x86_64'] # current docker container only x64
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
       - name : install adb
         run: | 
           sudo apt install adb aapt
-      - name: install redroid dependencies
+      - name: Install reDroid dependencies
         run: |
           ## install required kernel modules          
           sudo apt install linux-modules-extra-`uname -r`
           sudo modprobe binder_linux devices="binder,hwbinder,vndbinder"
           sudo modprobe ashmem_linux          
-      - name: run emulator
+      - name: Run emulator
         run: |
           mkdir data
-          #docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p ${{env.avd_port}}:5555 redroid/redroid:12.0.0-latest
-          docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p ${{env.avd_port}}:5555 redroid/redroid:12.0.0_64only-latest
+          docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p ${{env.avd_port}}:5555 redroid/redroid:12.0.0-latest
+          #docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p ${{env.avd_port}}:5555 redroid/redroid:12.0.0_64only-latest
 
       - name: Download runner artifacts 
         uses: actions/download-artifact@master
@@ -97,10 +97,7 @@ jobs:
           
       - name: adb start main activity
         run: |                    
-
-          # start whatsapp https://stackoverflow.com/questions/59457014/start-whatsapp-chat-using-adb
-          # adb -s localhost:5555 shell am start -n com.whatsapp/com.whatsapp.Main
-          ## adb shell am start -n com.whatsapp/com.whatsapp.Main
+          # adb -s localhost:5555 shell am start -n com.whatsapp/com.whatsapp.Main          
           ./adb-run.sh "${{matrix.apkpath}}"
 
       - name: get package name ver
