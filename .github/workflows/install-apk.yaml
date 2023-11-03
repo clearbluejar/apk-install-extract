@@ -5,7 +5,9 @@ on:
   push:
     branches:
       - main
-
+  schedule:
+    - cron: '30 5,15 * * *'
+    
   workflow_dispatch:
     inputs:
       apk_zip_url:
