@@ -83,7 +83,7 @@ jobs:
           docker run -itd --rm --privileged --pull always -v $(pwd)/data:/data -p ${{env.avd_port}}:5555 redroid/redroid:12.0.0-latest          
 
       - name: Download runner artifacts 
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v3
         with:
           name: ${{env.all_apk_dir}}
           path: ${{env.all_apk_dir}}
