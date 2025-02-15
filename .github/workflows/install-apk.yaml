@@ -31,7 +31,7 @@ jobs:
       apkpaths: ${{ steps.getpaths.outputs.apkpaths }}
     steps:      
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
@@ -51,7 +51,7 @@ jobs:
           echo "apkpaths=$(python -c 'import pathlib; print([str(file) for file in pathlib.Path.glob(pathlib.Path("${{env.all_apk_dir}}"),"**/*.apk")])')" >> "$GITHUB_OUTPUT"          
         shell: bash
       - name: Upload APKs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{env.all_apk_dir}}
           path: ${{env.all_apk_dir}}
@@ -67,7 +67,7 @@ jobs:
         arch: ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64']        
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name : install adb
         run: | 
           sudo apt install adb aapt
@@ -129,7 +129,7 @@ jobs:
           tar cvzf ${{ env.apkpkgver }}/${{ env.apkpkgver }}.${{matrix.arch}}.data.tar.gz data-${{ env.apkpkgver }}-${{matrix.arch}}/data/${{ env.apkpkg }}
       
       - name: Upload data
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
             name: all_package_data
@@ -137,7 +137,7 @@ jobs:
             retention-days: 25
             
       - name: Upload all data
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
             name: all_data
